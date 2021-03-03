@@ -1,0 +1,14 @@
+version: "3.1"
+
+services: 
+  bknd_app:
+    build: .
+    container_name: bknd_app
+    volumes:
+      - ./src:/home/app
+      - /home/app/node_modules
+    ports: 
+      - 8080:8080
+      - 9229:9229
+    environment:
+      - COMMAND=${COMMAND}
