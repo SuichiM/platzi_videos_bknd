@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 
 const { config } = require('./config/index');
-const moviesApi = require('./routes/movies');
 const moviesRoutes = require('./routes/movies')
 
 app.get('/', (req, res) => {

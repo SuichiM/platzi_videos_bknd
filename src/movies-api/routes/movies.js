@@ -1,16 +1,18 @@
 const express = require('express');
-const { moviesMock } = require('../data/movies');
+const MoviesService = require('../services/movies');
 
 function moviesApi(app) {
   const router = express.Router();
   app.use('/api/movies', router);
+  const moviesServices = new MoviesService();
 
   /**
    * GET movie collection
    */
   router.get('/', async (req, res, next) => {
     try {
-      const movies = await Promise.resolve(moviesMock);
+      const { tags } = req.query;
+      const movies = await moviesServices.getMovies({ tags });
       res.status(200).json({
         data: movies,
         message: 'movies listed',
@@ -27,7 +29,7 @@ function moviesApi(app) {
     try {
       const { id } = req.params;
       // console.log(id);
-      const movie = await Promise.resolve(moviesMock[id]);
+      const movie = await moviesServices.getMovie(id);
 
       res.status(200).json({
         data: movie,
@@ -43,13 +45,13 @@ function moviesApi(app) {
    */
   router.post('/', async (req, res, next) => {
     try {
-      const { body } = req;
+      const { body: movieData } = req;
 
-      console.log(body);
+      console.log(movieData);
 
-      const createdMovieId = await Promise.resolve(moviesMock[0]);
+      const createdMovieId = await moviesServices.createMovie({ movieData });
 
-      res.status(200).json({
+      res.status(201).json({
         data: createdMovieId,
         message: 'movie created',
       });
@@ -64,8 +66,9 @@ function moviesApi(app) {
   router.put('/:id', async (req, res, next) => {
     try {
       const { id } = req.params;
+      const { body: movieData } = req;
 
-      const updatedMovie = await Promise.resolve(moviesMock[id]);
+      const updatedMovie = await moviesServices.updateMovie(id, movieData);
 
       res.status(200).json({
         data: updatedMovie,
@@ -80,7 +83,7 @@ function moviesApi(app) {
     try {
       const { id } = req.params;
 
-      const deletedMovieId = await Promise.resolve(moviesMock[id]);
+      const deletedMovieId = await moviesServices.deleteMovie(id);
 
       res.status(200).json({
         data: deletedMovieId,
