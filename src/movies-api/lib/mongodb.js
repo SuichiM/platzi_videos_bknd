@@ -16,55 +16,45 @@ class MongoLib {
     this.dbName = DB_NAME;
   }
 
-  connect() {
-    if (!MongoLib.connection)
-      MongoLib.connection = new Promise((resolve, reject) => {
-        this.client.connect((err) => {
-          if (err) reject(err);
-          console.log('Connected succefully to mongo');
-          resolve(this.client.db(this.dbName));
-        });
-      });
-
-    return MongoLib.connection;
+  async connect() {
+    if (! this.client.isConnected()) {
+      await this.client.connect()
+    }
+    return this.client.db(this.dbName)
   }
 
-  getAll(collection, query) {
-    return this.connect().then((db) => {
-      return db.collection(collection).find(query).toArray();
-    });
+  async getAll(collection, query) {
+    const db = await this.connect();
+    const data = await db.collection(collection).find(query).toArray();
+    const totalCount = await db.collection(collection).countDocuments();
+    return { data, count: data.length, totalCount };
   }
 
-  get(collection, id) {
-    return this.connect().then((db) => {
-      return db.collection(collection).findOne({ _id: ObjectId(id) });
-    });
+  async get(collection, id) {
+    const db = await this.connect();
+    return db.collection(collection).findOne({ _id: ObjectId(id) });
   }
 
-  create(collection, data) {
-    return this.connect()
-      .then((db) => {
-        return db.collection(collection).insertOne(data);
-      })
-      .then((result) => result.insertedId);
+  async create(collection, data) {
+    const db = await this.connect();
+    const record = await db.collection(collection).insertOne(data);
+    return record.insertedId;
   }
 
-  update(collection, id, data) {
-    return this.connect()
-      .then((db) => {
-        return db
-          .collection(collection)
-          .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true });
-      })
-      .then((result) => result.upsertedId || id);
+  async update(collection, id, data) {
+    const db = await this.connect();
+    const result = await db
+      .collection(collection)
+      .updateOne({ _id: ObjectId(id) }, { $set: data }, { upsert: true });
+    return result.upsertedId || id;
   }
 
-  delete(collection, id) {
-    return this.connect()
-      .then((db) => {
-        return db.collection(collection).deleteOne({ _id: ObjectId(id) });
-      })
-      .then(() => id);
+  async delete(collection, id) {
+    const db = await this.connect();
+    const record = await db
+      .collection(collection)
+      .deleteOne({ _id: ObjectId(id) });
+    return id;
   }
 }
 

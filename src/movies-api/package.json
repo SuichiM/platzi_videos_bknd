@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "DEBUG=app:* nodemon index.js",
+    "dev": "DEBUG=app:* nodemon --inspect=0.0.0.0 index.js",
     "start": "NODE_ENV=production node index.js"
   },
   "keywords": [],
