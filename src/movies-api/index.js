@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 
 const { config } = require('./config/index');
-const moviesRoutes = require('./routes/movies')
+const moviesApi = require('./routes/movies')
+
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send({
@@ -10,7 +12,7 @@ app.get('/', (req, res) => {
   });
 });
 
-moviesRoutes(app)
+moviesApi(app)
 
 app.listen(config.port, () => {
   console.log(`server listening on http://localhost:${config.port}`);

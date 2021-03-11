@@ -49,7 +49,7 @@ function moviesApi(app) {
 
       console.log(movieData);
 
-      const createdMovieId = await moviesServices.createMovie({ movieData });
+      const createdMovieId = await moviesServices.createMovie(movieData);
 
       res.status(201).json({
         data: createdMovieId,
