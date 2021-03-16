@@ -12,3 +12,25 @@ services:
       - 9229:9229
     environment:
       - COMMAND=${COMMAND}
+  mongodb:
+    image: mongo:4.2
+    # restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      default:
+        aliases:
+          - mongodb-server
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+volumes:
+    mongo-data:
+        driver: local

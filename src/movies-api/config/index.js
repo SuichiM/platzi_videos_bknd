@@ -9,6 +9,7 @@ const config = {
   db_name: process.env.DB_NAME,
   db_user: process.env.DB_USER,
   db_pass: process.env.DB_PASS,
+  db_protocol: process.env.DB_PROTOCOL
 };
 
 module.exports = { config };
