@@ -11,9 +11,9 @@ function moviesApi(app) {
    */
   router.get('/', async (req, res, next) => {
     try {
-      const { tags:tagsString } = req.query;
-      let tags = tagsString && tagsString.split('|')
-      const movies = await moviesServices.getMovies({tags});
+      const { tags: tagsString } = req.query;
+      let tags = tagsString && tagsString.split('|');
+      const movies = await moviesServices.getMovies({ tags });
       res.status(200).json({
         ...movies,
         message: 'movies listed',
