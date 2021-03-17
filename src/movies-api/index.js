@@ -3,8 +3,9 @@ const app = express();
 
 const { config } = require('./config/index');
 
-const { logErrors, errorHandler } = require('./middleware/errorHandler');
+const { logErrors, errorHandler, wrapErrors } = require('./middleware/errorHandler');
 
+const notFoundHandler = require('./middleware/notFoundHandler')
 /**
  *MIDDLEWARES
  */
@@ -23,6 +24,9 @@ app.get('/', (req, res) => {
 
 moviesApi(app);
 
+// catch 404 error
+app.use(notFoundHandler);
+
 /**
  * ERROR MIDDLEWARES
  * 
@@ -31,6 +35,7 @@ moviesApi(app);
  */
 
 app.use(logErrors);
+app.use(wrapErrors);
 app.use(errorHandler);
  
 
