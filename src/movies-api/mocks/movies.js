@@ -16,8 +16,8 @@ const moviesMock = [
       'Horror|Thriller',
       'Comedy|Romance|Sci-Fi',
       'Adventure|Animation|Children|Comedy|Fantasy',
-      'Drama'
-    ]
+      'Drama',
+    ],
   },
   {
     id: '3f951b6d-03fa-4fb0-a7a1-188c0abe9e06',
@@ -38,8 +38,8 @@ const moviesMock = [
       'Drama|Thriller',
       'Comedy',
       'Action|Drama|War',
-      'Drama'
-    ]
+      'Drama',
+    ],
   },
   {
     id: 'c030eed2-dad1-47f4-b660-9cfb7170eadb',
@@ -51,7 +51,7 @@ const moviesMock = [
     duration: 142,
     contentRating: 'PG',
     source: 'http://odnoklassniki.ru/porta/volutpat/erat.jsp',
-    tags: ['Crime|Drama|Thriller']
+    tags: ['Crime|Drama|Thriller'],
   },
   {
     id: 'c672ff92-c373-49f4-9c5b-f0151d304361',
@@ -63,7 +63,7 @@ const moviesMock = [
     duration: 172,
     contentRating: 'PG',
     source: 'https://un.org/tortor/id/nulla/ultrices/aliquet/maecenas.png',
-    tags: ['Drama', 'Drama|Mystery|Thriller', 'Drama|Thriller']
+    tags: ['Drama', 'Drama|Mystery|Thriller', 'Drama|Thriller'],
   },
   {
     id: '5ec75811-1001-4612-9743-67296d90071a',
@@ -80,8 +80,8 @@ const moviesMock = [
       'Crime|Drama|Mystery|Thriller',
       'Comedy|Sci-Fi',
       'Adventure|Comedy|Sci-Fi',
-      'Drama'
-    ]
+      'Drama',
+    ],
   },
   {
     id: '63d718f2-4e37-4090-ad57-dd2cf22393e6',
@@ -93,7 +93,7 @@ const moviesMock = [
     duration: 173,
     contentRating: 'R',
     source: 'https://nih.gov/erat/quisque/erat/eros.jpg',
-    tags: ['Action|Drama', 'Comedy']
+    tags: ['Action|Drama', 'Comedy'],
   },
   {
     id: 'e9093aaa-daf2-4e32-aa6b-c3d79d0d9120',
@@ -105,7 +105,7 @@ const moviesMock = [
     duration: 115,
     contentRating: 'R',
     source: 'https://umich.edu/cursus/id/turpis/integer/aliquet.aspx',
-    tags: ['Comedy|Romance', 'Drama|Thriller', 'Animation|Children']
+    tags: ['Comedy|Romance', 'Drama|Thriller', 'Animation|Children'],
   },
   {
     id: '94f4fa76-fcf9-4aa3-a18f-f54bb7d462bc',
@@ -117,7 +117,7 @@ const moviesMock = [
     duration: 158,
     contentRating: 'NC-17',
     source: 'https://psu.edu/duis/bibendum/morbi/non/quam.aspx',
-    tags: ['Drama', 'Thriller']
+    tags: ['Drama', 'Thriller'],
   },
   {
     id: '9a2e5834-4eb5-4083-8c21-87fdfc0b3b52',
@@ -135,8 +135,8 @@ const moviesMock = [
       'Action|Fantasy|Horror',
       'Thriller',
       'Comedy|Crime',
-      'Drama'
-    ]
+      'Drama',
+    ],
   },
   {
     id: '11fff70c-c312-4791-b8b4-1a0665edd79e',
@@ -149,10 +149,29 @@ const moviesMock = [
     contentRating: 'PG',
     source:
       'http://columbia.edu/eget/orci/vehicula/condimentum/curabitur/in/libero.html',
-    tags: ['Action|Adventure|Comedy|Drama|War', 'Animation', 'Drama']
-  }
+    tags: ['Action|Adventure|Comedy|Drama|War', 'Animation', 'Drama'],
+  },
 ];
 
+const filteredMoviesMock = (tag) =>
+  moviesMock.filter((movie) => movie.tags.includes(tag));
+
+class MoviesServiceMock {
+  async getMovies() {
+    return Promise.resolve({
+      data: moviesMock,
+      count: moviesMock.length,
+      totalCount: moviesMock.length,
+    });
+  }
+
+  async createMovie() {
+    return moviesMock[0];
+  }
+}
+
 module.exports = {
-  moviesMock
+  moviesMock,
+  filteredMoviesMock,
+  MoviesServiceMock,
 };
