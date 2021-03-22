@@ -66,8 +66,6 @@ function moviesApi(app) {
     try {
       const { body: movieData } = req;
 
-      console.log(movieData);
-
       const createdMovie = await moviesServices.createMovie(movieData);
 
       const message = messageMaker(ENTITY, 'create');
@@ -108,7 +106,7 @@ function moviesApi(app) {
 
   router.delete(
     '/:id',
-    validationHandler({ id: movieIdSchema }, 'params'),
+    //validationHandler({ id: movieIdSchema }, 'params'),
     async (req, res, next) => {
       try {
         const { id } = req.params;

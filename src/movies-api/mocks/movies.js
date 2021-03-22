@@ -168,6 +168,10 @@ class MoviesServiceMock {
   async createMovie() {
     return moviesMock[0];
   }
+
+  async deleteMovie(id){
+    return id
+  }
 }
 
 module.exports = {

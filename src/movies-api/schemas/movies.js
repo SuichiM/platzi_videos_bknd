@@ -7,7 +7,7 @@ const YearSchema = joi.number().min(1888).max(2077);
 const CoverSchema = joi.string().uri();
 const DescriptionSchema = joi.string();
 const DurationSchema = joi.number().min(1).max(300);
-const ContentRatingSchema = joi.string().valid('PG', 'PG-13', 'R', 'NC-17');
+const ContentRatingSchema = joi.string().valid('G', 'PG', 'PG-13', 'R', 'NC-17');
 const SourceSchema = joi.string().uri();
 const TagsSchema = joi.array().items(joi.string().max(50));
 
