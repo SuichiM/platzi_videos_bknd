@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha --exit",
     "dev": "DEBUG=app:* nodemon --inspect=0.0.0.0 index.js",
-    "start": "NODE_ENV=production node index.js"
+    "start": "NODE_ENV=production node index.js",
+    "cover": "nyc npm run test",
+    "report": "nyc report --reporter=html &&  xdg-open coverage/index.html"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +33,7 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "nodemon": "^2.0.7",
+    "nyc": "^15.1.0",
     "prettier": "^2.2.1"
   },
   "husky": {
@@ -40,5 +43,9 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "nyc":{
+    "all":true,
+    "include":["routes", "services", "lib", "utils", "middleware"]
   }
 }
