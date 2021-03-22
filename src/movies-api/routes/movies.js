@@ -11,6 +11,12 @@ const messageMaker = require('../utils/messageMaker');
 
 const validationHandler = require('../middleware/validationHandler');
 
+const {
+  FIVE_MINUTES_IN_SECONDS,
+  SIXTY_MINUTES_IN_SECONDS,
+} = require('../config/params');
+const cacheResponse = require('../utils/cacheResponse');
+
 function moviesApi(app) {
   const ENTITY = 'movie';
 
@@ -23,6 +29,9 @@ function moviesApi(app) {
    */
   router.get('/', async (req, res, next) => {
     try {
+
+      cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
+
       const { tags: tagsString } = req.query;
       let tags = tagsString && tagsString.split('|');
       const movies = await moviesServices.getMovies({ tags });
@@ -44,6 +53,9 @@ function moviesApi(app) {
     validationHandler({ id: movieIdSchema }, 'params'),
     async (req, res, next) => {
       try {
+        
+        cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
+
         const { id } = req.params;
         // console.log(id);
         const movie = await moviesServices.getMovie(id);
