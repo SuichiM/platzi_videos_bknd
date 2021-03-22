@@ -7,11 +7,14 @@ const {
   updateSchema,
 } = require('../schemas/movies');
 
+const messageMaker = require('../utils/messageMaker');
+
 const validationHandler = require('../middleware/validationHandler');
 
 function moviesApi(app) {
-  const router = express.Router();
+  const ENTITY = 'movie';
 
+  const router = express.Router();
   app.use('/api/movies', router);
   const moviesServices = new MoviesService();
 
@@ -23,9 +26,10 @@ function moviesApi(app) {
       const { tags: tagsString } = req.query;
       let tags = tagsString && tagsString.split('|');
       const movies = await moviesServices.getMovies({ tags });
+      const message = messageMaker(ENTITY, 'list');
       res.status(200).json({
         ...movies,
-        message: 'movies listed',
+        message,
       });
     } catch (error) {
       next(error);
@@ -43,10 +47,11 @@ function moviesApi(app) {
         const { id } = req.params;
         // console.log(id);
         const movie = await moviesServices.getMovie(id);
+        const message = messageMaker(ENTITY, 'retrieve');
 
         res.status(200).json({
           data: movie,
-          message: 'movie listed',
+          message,
         });
       } catch (error) {
         next(error);
@@ -65,9 +70,11 @@ function moviesApi(app) {
 
       const createdMovie = await moviesServices.createMovie(movieData);
 
+      const message = messageMaker(ENTITY, 'create');
+
       res.status(201).json({
         data: createdMovie,
-        message: 'movie created',
+        message,
       });
     } catch (error) {
       next(error);
@@ -87,10 +94,11 @@ function moviesApi(app) {
         const { body: movieData } = req;
 
         const updatedMovie = await moviesServices.updateMovie(id, movieData);
+        const message = messageMaker(ENTITY, 'update');
 
         res.status(200).json({
           data: updatedMovie,
-          message: 'movie updated',
+          message,
         });
       } catch (error) {
         next(error);
@@ -106,10 +114,11 @@ function moviesApi(app) {
         const { id } = req.params;
 
         const deletedMovieId = await moviesServices.deleteMovie(id);
+        const message = messageMaker(ENTITY, 'delete');
 
         res.status(200).json({
           data: deletedMovieId,
-          message: 'movie deleted',
+          message,
         });
       } catch (error) {
         next(error);
