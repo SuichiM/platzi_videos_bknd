@@ -8,7 +8,8 @@
     "dev": "DEBUG=app:* nodemon --inspect=0.0.0.0 index.js",
     "start": "NODE_ENV=production node index.js",
     "cover": "nyc npm run test",
-    "report": "nyc report --reporter=html &&  xdg-open coverage/index.html"
+    "report": "nyc report --reporter=html &&  xdg-open coverage/index.html",
+    "add:secret": "vercel secrets add"
   },
   "keywords": [],
   "author": "",
@@ -44,8 +45,14 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix"
   },
-  "nyc":{
-    "all":true,
-    "include":["routes", "services", "lib", "utils", "middleware"]
+  "nyc": {
+    "all": true,
+    "include": [
+      "routes",
+      "services",
+      "lib",
+      "utils",
+      "middleware"
+    ]
   }
 }
