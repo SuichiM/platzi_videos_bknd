@@ -27,6 +27,7 @@ app.use(helmet());
  * SERVICES
  */
 const moviesApi = require('./routes/movies');
+const userMoviesApi = require('./routes/userMovies');
 
 app.get('/', (req, res) => {
   res.send({
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
 });
 
 moviesApi(app);
+userMoviesApi(app);
 
 // catch 404 error
 app.use(notFoundHandler);
