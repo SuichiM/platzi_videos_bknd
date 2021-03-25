@@ -16,12 +16,12 @@ function userMoviesApi(app) {
     '/:userId',
     // validationHandler({ userId: userIdSchema }, 'params'),
     async function (req, res, next) {
-      const { userId } = req.query;
+      const { userId } = req.params;
       try {
         const userMovies = await userMoviesService.getUserMovies({ userId });
         res
           .status(200)
-          .json({ data: userMovies, message: 'userMovies listed' });
+          .json({ ...userMovies, message: 'userMovies listed' });
       } catch (error) {
         next(error);
       }
@@ -33,8 +33,7 @@ function userMoviesApi(app) {
     validationHandler(createUserMovieSchema),
     async function (req, res, next) {
       try {
-        const { body } = req;
-        const { userMovie } = body;
+        const userMovie  = req.body;
 
         const createdUserMoviesId = await userMoviesService.addUserMovie({
           userMovie,

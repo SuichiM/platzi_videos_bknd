@@ -13,7 +13,7 @@ class UserMoviesService {
     return userMovies || { data: [], count: 0, totalCount: 0 };
   }
 
-  async addUserMovie(userMovie) {
+  async addUserMovie({userMovie}) {
     const createdUserMovieId = await this.mongoDB.create(
       this.collection,
       userMovie
