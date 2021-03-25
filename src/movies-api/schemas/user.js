@@ -1,0 +1,15 @@
+const joi = require('@hapi/joi');
+
+const IdSchema = joi.string().regex(/^[0-9a-fA-F]{24}$/);
+
+const createUserSchema = {
+  name: joi.string().max(100).required(),
+  email:  joi.string().email().required(),
+  password: joi.string().required().min(8),
+  isAdmin: joi.boolean()
+}
+
+module.exports = {
+  IdSchema,
+  createUserSchema
+}
