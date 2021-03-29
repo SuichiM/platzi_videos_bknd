@@ -10,7 +10,7 @@ passport.use(
     const userService = new UserService();
 
     try {
-      const user = userService.getUser({ email });
+      const user = await userService.getUser({ email });
       if (!user) return cb(boom.unauthorized(), false);
 
       if (!(await bcrypt.compare(pass, user.password)))

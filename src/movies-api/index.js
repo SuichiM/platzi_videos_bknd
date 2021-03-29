@@ -26,6 +26,7 @@ app.use(helmet());
 /**
  * SERVICES
  */
+const authApi = require('./routes/auth');
 const moviesApi = require('./routes/movies');
 const userMoviesApi = require('./routes/userMovies');
 
@@ -35,6 +36,7 @@ app.get('/', (req, res) => {
   });
 });
 
+authApi(app);
 moviesApi(app);
 userMoviesApi(app);
 
