@@ -1,9 +1,20 @@
 const express = require('express');
-const validationHandler = require('../middleware/validationHandler');
+const passport = require('passport');
+
+// SERVICES
+const UserMoviesService = require('../services/userMovies');
+
+// SCHEMAS
 const { movieIdSchema } = require('../schemas/movies');
 const { idSchema: userIdSchema } = require('../schemas/user');
 const { idSchema, createUserMovieSchema } = require('../schemas/userMovies');
-const UserMoviesService = require('../services/userMovies');
+
+// UTILS
+const validationHandler = require('../middleware/validationHandler');
+
+// JWT stragegy
+const jwt = require('../utils/auth/strategies/jwt');
+
 
 function userMoviesApi(app) {
   const router = express.Router();

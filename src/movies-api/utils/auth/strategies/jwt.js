@@ -1,5 +1,5 @@
 const passport = require('passport');
-const { Strategy, ExtractJwt } = require('passport-http');
+const { Strategy, ExtractJwt } = require('passport-jwt');
 const boom = require('@hapi/boom');
 
 const UserService = require('../../../services/users');
@@ -20,8 +20,10 @@ passport.use(
 
         delete user.password;
 
-        return cb(false, user);
-      } catch (error) {}
+        return cb(false, { ...user, scopes: tokenPayload.scopes });
+      } catch (error) {
+        cb(boom.unauthorized(), false);
+      }
     }
   )
 );

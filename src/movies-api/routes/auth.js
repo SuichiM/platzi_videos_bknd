@@ -57,7 +57,7 @@ function authApi(app) {
           return res.status(200).json({ token, user: { id, name, email } });
         });
       } catch (error) {
-        next(error);
+        next(boom.unauthorized());
       }
     })(req, res, next);
   });
