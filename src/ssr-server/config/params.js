@@ -1,0 +1,4 @@
+const THIRTY_DAYS_IN_SEC = 2592000;
+const TWO_HOURS_IN_SEC = 7200;
+
+module.exports = { THIRTY_DAYS_IN_SEC, TWO_HOURS_IN_SEC };

@@ -8,6 +8,7 @@ const util = require("util");
 
 
 const { config } = require("./config");
+const { THIRTY_DAYS_IN_SEC, TWO_HOURS_IN_SEC } = require('./config/params')
 const app = express();
 
 // middlewares
@@ -19,7 +20,8 @@ require('./utils/auth/strategies/basic');
 
 
 app.post("/auth/sign-in", async function(req, res, next) {
-  
+  const { rememberMe } = req.body;
+
   passport.authenticate("basic", function(error, data){
     try {
   
@@ -33,7 +35,8 @@ app.post("/auth/sign-in", async function(req, res, next) {
         const { token, ...user } = data;
         res.cookie("token", token, {
           httpOnly: !config.dev,
-          secure: !config.dev
+          secure: !config.dev,
+          maxAge: rememberMe ? THIRTY_DAYS_IN_SEC : TWO_HOURS_IN_SEC
         })
         
         res.status(200).json(user);
