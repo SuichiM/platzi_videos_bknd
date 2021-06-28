@@ -40,6 +40,7 @@ function userMoviesApi(app) {
 
   router.post(
     '/',
+    passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['create:user-movies']),
     validationHandler(createUserMovieSchema),
     async function (req, res, next) {
@@ -61,14 +62,17 @@ function userMoviesApi(app) {
 
   router.delete(
     '/:userMovieId',
+    passport.authenticate('jwt', { session: false }),
     scopesValidationHandler(['delete:user-movies']),
     validationHandler({ userMovieId: idSchema }, 'params'),
     async function (req, res, next) {
       const { userMovieId } = req.params;
       try {
+        
         const deletedUserMovieId = await userMoviesService.deleteUserMovie({
           userMovieId,
         });
+
         res.status(200).json({
           data: deletedUserMovieId,
           result: 'userMovie deleted',

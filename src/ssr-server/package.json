@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "DEBUG=app:* nodemon index",
+    "dev": "DEBUG=app:* nodemon --inspect=0.0.0.0 index",
     "start": "NODE_ENV=production node index"
   },
   "keywords": [],
