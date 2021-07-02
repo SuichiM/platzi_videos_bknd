@@ -7,7 +7,7 @@ const boom = require('@hapi/boom')
 const {config} = require('../../../config')
 
 const GOOGLE_AUTHORIZATION_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
-const GOOGLE_TOKEN_URL = 'https://www.googleapis.com/oauth2/v4/token';
+const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_URSERINFO_URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
 /** configuramos el OAuth strategy con google*/
@@ -20,8 +20,8 @@ const oAuth2Strategy = new OAuth2Strategy({
 },
 /** la funcion callback de cuando vuelve de google*/
 async function(accessToken, refreshToken, profile, cb){
-
-  const {data, status} = await axios({
+  try {
+  const res = await axios({
     url: `${config.apiUrl}/api/auth/sign-provider`,
     method:'post',
     data:{
@@ -32,10 +32,16 @@ async function(accessToken, refreshToken, profile, cb){
     }
   })
 
+  const {data, status} = res
   if(!data || status !== 200)
     return cb(boom.unauthorized(), false)
   
     return cb(null, data)
+
+  } catch (error) {
+    cb(error)    
+  }
+
 })
 
 oAuth2Strategy.userProfile = function (accessToken, done){
@@ -46,6 +52,7 @@ oAuth2Strategy.userProfile = function (accessToken, done){
     try {
       const parsed = JSON.parse(body)
       console.log(parsed);
+
       const {sub, name, email} = parsed
 
       const profile = {

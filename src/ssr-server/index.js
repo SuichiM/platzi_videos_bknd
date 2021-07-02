@@ -127,7 +127,7 @@ app.get("/auth/google-oauth",
   })
 )
 
-app.get("/auth/google-oauth-callback", 
+app.get("/auth/google-oauth/callback", 
   passport.authenticate('google-oauth', {session:false}),
 function(req, res, next){
   if(!req.user)
